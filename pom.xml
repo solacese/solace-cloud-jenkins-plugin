@@ -19,7 +19,7 @@
    <name>Solace PubSub+ Cloud Jenkins Plugin</name>
 
    <properties>
-      <jenkins.version>2.164.1</jenkins.version>
+      <jenkins.version>2.222.1</jenkins.version>
       <java.level>8</java.level>
    </properties>
 
@@ -59,7 +59,9 @@
    </dependencyManagement>
 
    <dependencies>
+ 
   <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
+  <!-- TODO: Replace Jersey with UNIRest -->
       <dependency>
          <groupId>org.glassfish.jersey.core</groupId>
          <artifactId>jersey-client</artifactId>
@@ -77,6 +79,26 @@
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-configuration2</artifactId>
          <version>2.7</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>jcl-over-slf4j</artifactId>
+         <version>[1.7.25,1.7.26]</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <version>[1.7.12][1.7.25,1.7.26]</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>log4j-over-slf4j</artifactId>
+         <version>1.7.26</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-jdk14</artifactId>
+         <version>1.7.26</version>
       </dependency>
       <dependency>
          <groupId>com.github.tomakehurst</groupId>
@@ -98,7 +120,7 @@
       <dependency>
          <groupId>commons-codec</groupId>
          <artifactId>commons-codec</artifactId>
-         <version>1.10</version>
+         <version>1.12</version>
          <scope>test</scope>
       </dependency>
       <dependency>
@@ -114,8 +136,18 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-       <groupId>org.mockito</groupId>
-       <artifactId>mockito-core</artifactId>
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.glassfish.jersey.test-framework</groupId>
+         <artifactId>jersey-test-framework-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+         <artifactId>jersey-test-framework-provider-inmemory</artifactId>
       </dependency>
    </dependencies>
 

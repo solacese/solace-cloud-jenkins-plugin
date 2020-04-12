@@ -1,0 +1,53 @@
+{
+	"data": {
+		"type": "service",
+		"serviceId": "77ho47w4t",
+		"name": "Demo Service",
+		"datacenterId": "aws-us-east-1b",
+		"partitionId": "default",
+		"serviceTypeId": "free",
+		"serviceClassId": "free",
+		"adminState": "start",
+		"created": 1530721920996,
+		"creationState": "pending",
+		"msgVpnAttributes": {
+			
+		},
+		"planAttributes": {
+			"vpnEventLargeMsgThreshold": "11",
+			"Cost": "Free",
+			"Message Storage Encryption": "Yes",
+			"Configuration Encryption": "Yes",
+			"vpnMaxConnectionCount": "50",
+			"vpnMaxTransactedSessionCount": "50",
+			"vpnMaxTransactionCount": "200",
+			"vpnMaxMsgSpoolUsage": "1000",
+			"vpnMaxEndpointCount": "50",
+			"vpnMaxEgressFlowCount": "50",
+			"vpnMaxSubscriptionCount": "500",
+			"vpnMaxIngressFlowCount": "50"
+		},
+		"planDisplayAttributes": {
+			"Message Broker Tenancy": "Shared",
+			"High Availability": "Single Node",
+			"Clients": "50",
+			"Queues": "50",
+			"Storage": "1 GB",
+			"Network Usage": "1 GB per month",
+			"Network Speed": "4 Mbps"
+		},
+		"accountingLimits": [
+			{
+				"id": "NetworkUsage",
+				"value": "1000000000",
+				"unit": "bytes",
+				"thresholds": [
+					{
+						"type": "warning",
+						"value": "75"
+					}
+				]
+			}
+		]
+	}
+}

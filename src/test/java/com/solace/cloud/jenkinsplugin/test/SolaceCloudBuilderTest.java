@@ -1,20 +1,10 @@
 package com.solace.cloud.jenkinsplugin.test;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.PrintStream;
-import java.util.HashMap;
+import java.io.FileReader;
 
-import javax.ws.rs.core.MediaType;
-
-import org.apache.http.protocol.HTTP;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -22,7 +12,8 @@ import org.jvnet.hudson.test.WithoutJenkins;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.solace.cloud.SolaceCloudBuilder;
+import com.solace.cloud.dto.SolaceCloudRequest;
+import com.solace.cloud.dto.SolaceCloudResponse;
 
 public class SolaceCloudBuilderTest {
 
@@ -32,42 +23,45 @@ public class SolaceCloudBuilderTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(); // defaults to port 8080
 
+    // Simple Unit test to ensure request JSON is accurate
     @Test
     @WithoutJenkins
-    public void testSolaceCloudInvocation() throws Exception {
+    public void testRequestJSON() throws Exception {
 
-	String targetURI = "/api/v0/services";
+	SolaceCloudRequest request = new SolaceCloudRequest();
 
-	// stub out the Solace Cloud Service
-	stubFor(post(urlEqualTo(targetURI)).withHeader("Accept", equalTo(MediaType.APPLICATION_JSON))
-		.willReturn(aResponse().withStatus(201).withHeader(HTTP.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-			.withBody("{\"result\":\"success\"}")));
+	request.setName("name");
+	request.setDatacenterId("aws-us-east-1b");
+	request.setServiceClassId("enterprise");
+	request.setServiceTypeId("enterprise-giga");
 
-	// create an instance of our Jenkins plugin and call the Solace Cloud method
-	SolaceCloudBuilder scb = new SolaceCloudBuilder("fake-api-token", "Azure", "us-east-2", "free", "free",
-		"test-service");
+	ObjectMapper mapper = new ObjectMapper();
+	String testRequestAsString = mapper.writeValueAsString(request);
 
-	//mock a logger for use by our method
-	PrintStream mockedLogger = mock(PrintStream.class);
-	scb.invokeSolaceCloud(mockedLogger);
+	String expectedJSONRequest = "{\"name\":\"name\",\"datacenterId\":\"aws-us-east-1b\",\"partitionId\":\"default\",\"serviceClassId\":\"enterprise\",\"serviceTypeId\":\"enterprise-giga\",\"adminState\":\"start\"}";
 
-	HashMap<String, String> expectedRequest = new HashMap<String, String>();
-
-	// populate the hashmap with necessary values
-	expectedRequest.put("name", "test-service");
-	expectedRequest.put("dataCenterId", "us-east-2");
-	expectedRequest.put("partitionId", "default");
-	expectedRequest.put("serviceClassId", "free");
-	expectedRequest.put("serviceTypeId", "free");
-	expectedRequest.put("adminState", "start");
-
-	//turn our request into a JSON string
-	ObjectMapper mapper= new ObjectMapper();
-	String expectedRequestAsString = mapper.writeValueAsString(expectedRequest);
-
-	//verify the test result
-	verify(postRequestedFor(urlEqualTo(targetURI)).withHeader("Content-Type", equalTo(MediaType.APPLICATION_JSON))
-		.withHeader("Authorization", equalTo("fake-api-token")).withRequestBody(equalTo(expectedRequestAsString)));
+	assertTrue("Solace Cloud request check", testRequestAsString.equals(expectedJSONRequest));
     }
 
+    
+    //Simple unit test to ensure response JSON is accurately handled
+    @Test
+    @WithoutJenkins
+    public void testResponseJSON() throws Exception {
+
+	FileReader f = new FileReader("src/test/resources/testResponse.json");
+	String expectedJSONResponse = "";
+
+	int i = 0;
+
+	while ((i = f.read()) > -1)
+	    expectedJSONResponse += (char) i;
+
+	SolaceCloudResponse actualResponse = null;
+
+	ObjectMapper mapper = new ObjectMapper();
+	actualResponse = mapper.readValue(expectedJSONResponse, SolaceCloudResponse.class);
+
+	assertNotNull(actualResponse);
+    }
 }
