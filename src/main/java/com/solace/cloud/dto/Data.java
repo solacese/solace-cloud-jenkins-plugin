@@ -12,9 +12,13 @@ public class Data {
     private String partitionId;
     private String serviceTypeId;
     private String serviceClassId;
+    private String servicePlanId;
     private String adminState;
-    private String created;
+    private String adminProgress;
+    private Long created;
     private String creationState;
+    private List<MessagingProtocol> messagingProtocols = null;
+    private List<ManagementProtocol> managementProtocols = null;
     private MsgVpnAttributes msgVpnAttributes;
     private PlanAttributes planAttributes;
     private PlanDisplayAttributes planDisplayAttributes;
@@ -60,6 +64,14 @@ public class Data {
         this.partitionId = partitionId;
     }
 
+    public String getServicePlanId() {
+        return servicePlanId;
+    }
+
+    public void setServicePlanId(String servicePlanId) {
+        this.servicePlanId = servicePlanId;
+    }
+
     public String getServiceTypeId() {
         return serviceTypeId;
     }
@@ -84,11 +96,19 @@ public class Data {
         this.adminState = adminState;
     }
 
-    public String getCreated() {
+    public String getAdminProgress() {
+        return adminProgress;
+    }
+
+    public void setAdminProgress(String adminProgress) {
+        this.adminProgress = adminProgress;
+    }
+
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
@@ -98,6 +118,22 @@ public class Data {
 
     public void setCreationState(String creationState) {
         this.creationState = creationState;
+    }
+
+    public List<MessagingProtocol> getMessagingProtocols() {
+        return messagingProtocols;
+    }
+
+    public void setMessagingProtocols(List<MessagingProtocol> messagingProtocols) {
+        this.messagingProtocols = messagingProtocols;
+    }
+
+    public List<ManagementProtocol> getManagementProtocols() {
+        return managementProtocols;
+    }
+
+    public void setManagementProtocols(List<ManagementProtocol> managementProtocols) {
+        this.managementProtocols = managementProtocols;
     }
 
     public MsgVpnAttributes getMsgVpnAttributes() {

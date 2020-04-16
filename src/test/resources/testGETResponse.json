@@ -1,0 +1,436 @@
+{
+  "data": {
+    "type": "com.solace.maas.base.dto.v0.ServiceDTO",
+    "serviceId": "77ho47w4t",
+    "name": "Demo Service",
+    "datacenterId": "aws-us-east-1b",
+    "partitionId": "default",
+    "servicePlanId": "free-plan",
+    "adminState": "start",
+    "adminProgress": "completed",
+    "created": 1530721921216,
+    "creationState": "completed",
+    "messagingProtocols": [
+      {
+        "name": "MQTT",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "MQTT",
+            "transport": "TCP",
+            "uris": [
+              "tcp://vmr-mr41rzmcrpx.messaging.maasgo.net:20038"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          },
+          {
+            "name": "Secured MQTT",
+            "transport": "SSL",
+            "uris": [
+              "ssl://vmr-mr41rzmcrpx.messaging.maasgo.net:20039"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          },
+          {
+            "name": "WebSocket MQTT",
+            "transport": "WS",
+            "uris": [
+              "ws://vmr-mr41rzmcrpx.messaging.maasgo.net:20040"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          },
+          {
+            "name": "WebSocket Secured MQTT",
+            "transport": "WSS",
+            "uris": [
+              "wss://vmr-mr41rzmcrpx.messaging.maasgo.net:20041"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "JMS",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "JMS",
+            "transport": "TCP",
+            "uris": [
+              "smf://vmr-mr41rzmcrpx.messaging.maasgo.net:20032"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          },
+          {
+            "name": "Secured JMS",
+            "transport": "TLS",
+            "uris": [
+              "smfs://vmr-mr41rzmcrpx.messaging.maasgo.net:20034"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "REST",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "REST",
+            "transport": "HTTP",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20042"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          },
+          {
+            "name": "Secured REST",
+            "transport": "HTTPS",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20043"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "AMQP",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "AMQP",
+            "transport": "AMQP",
+            "uris": [
+              "amqp://vmr-mr41rzmcrpx.messaging.maasgo.net:20044"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          },
+          {
+            "name": "Secured AMQP",
+            "transport": "AMQPS",
+            "uris": [
+              "amqps://vmr-mr41rzmcrpx.messaging.maasgo.net:20045"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "SMF",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "Compressed SMF",
+            "transport": "TCP",
+            "uris": [
+              "tcp://vmr-mr41rzmcrpx.messaging.maasgo.net:20033"
+            ],
+            "secured": "no",
+            "compressed": "yes"
+          },
+          {
+            "name": "Secured SMF",
+            "transport": "TLS",
+            "uris": [
+              "tcps://vmr-mr41rzmcrpx.messaging.maasgo.net:20034"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          },
+          {
+            "name": "SMF",
+            "transport": "TCP",
+            "uris": [
+              "tcp://vmr-mr41rzmcrpx.messaging.maasgo.net:20032"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "Web Messaging",
+        "username": "solace-cloud-client",
+        "password": "j95t3gaoqo2t0296ngtmvu5lh",
+        "endPoints": [
+          {
+            "name": "Secured Web Messaging",
+            "transport": "WSS or HTTPS",
+            "uris": [
+              "wss://vmr-mr41rzmcrpx.messaging.maasgo.net:20036"
+            ],
+            "secured": "yes",
+            "compressed": "no"
+          },
+          {
+            "name": "Web Messaging",
+            "transport": "WS or HTTP",
+            "uris": [
+              "ws://vmr-mr41rzmcrpx.messaging.maasgo.net:20035"
+            ],
+            "secured": "no",
+            "compressed": "no"
+          }
+        ],
+        "limits": {}
+      }
+    ],
+    "managementProtocols": [
+      {
+        "name": "Web UI",
+        "username": "msgvpn-77ho47w4t-admin",
+        "password": "gb29lbfabnt79dbsobli9o28f8",
+        "endPoints": [
+          {
+            "name": "Secured Configure Clients",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/client/clients-summary?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Secured Configure Bridges",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/bridge/bridges?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Secured Configure Access Control",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/access-ctrl/authentication-detail/settings?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Configure Service",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Secured Configure Queues",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/endpoints/queues?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Configure Cache",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/cache?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Secured Configure Service",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Configure Clients",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/client/clients-summary?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Configure Bridges",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/bridge/bridges?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Configure Access Control",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/access-ctrl/authentication-detail/settings?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Configure Queues",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/endpoints/queues?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Secured Configure Cache",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/#/msg-vpns/bXNndnBuLTc3aG80N3c0dA==/cache?token=YWJj.eyJhY2Nlc3NfdG9rZW4iOiAibXNndnBuLTc3aG80N3c0dC1hZG1pbjpnYjI5bGJmYWJudDc5ZGJzb2JsaTlvMjhmOCJ9.eHl6&title=Demo%20Service&subtitle=msgvpn-77ho47w4t"
+            ],
+            "secured": "yes"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "SEMP",
+        "username": "msgvpn-77ho47w4t-admin",
+        "password": "gb29lbfabnt79dbsobli9o28f8",
+        "endPoints": [
+          {
+            "name": "SEMP Help",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/SEMP/v2/config/help/"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "SEMP Spec",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/SEMP/v2/config/spec"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Secured SEMP Help",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/SEMP/v2/config/help/"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Secured SEMP System Info",
+            "uris": [
+              "https://msgvpn-77ho47w4t-admin:gb29lbfabnt79dbsobli9o28f8@vmr-mr41rzmcrpx.messaging.maasgo.net:20046/SEMP/v2/config/systemInformation"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Secured SEMP Config",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/SEMP/v2/config"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "Secured SEMP Spec",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046/SEMP/v2/config/spec"
+            ],
+            "secured": "yes"
+          },
+          {
+            "name": "SEMP System Info",
+            "uris": [
+              "http://msgvpn-77ho47w4t-admin:gb29lbfabnt79dbsobli9o28f8@vmr-mr41rzmcrpx.messaging.maasgo.net:20037/SEMP/v2/config/systemInformation"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "SEMP Config",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037/SEMP/v2/config"
+            ],
+            "secured": "no"
+          }
+        ],
+        "limits": {}
+      },
+      {
+        "name": "SolAdmin",
+        "username": "msgvpn-77ho47w4t-admin",
+        "password": "gb29lbfabnt79dbsobli9o28f8",
+        "endPoints": [
+          {
+            "name": "Management",
+            "uris": [
+              "http://vmr-mr41rzmcrpx.messaging.maasgo.net:20037"
+            ],
+            "secured": "no"
+          },
+          {
+            "name": "Secured Management",
+            "uris": [
+              "https://vmr-mr41rzmcrpx.messaging.maasgo.net:20046"
+            ],
+            "secured": "yes"
+          }
+        ],
+        "limits": {}
+      }
+    ],
+    "msgVpnAttributes": {
+      "vpnEventLargeMsgThreshold": "11",
+      "vpnMaxConnectionCount": "50",
+      "vpnAdminUsername": "msgvpn-77ho47w4t-admin",
+      "vpnMaxTransactedSessionCount": "50",
+      "subDomainName": "vmr-mr41rzmcrpx.messaging.maasgo.net",
+      "vmrVersion": "8.11.0.1029",
+      "vpnAdminPassword": "gb29lbfabnt79dbsobli9o28f8",
+      "vpnName": "msgvpn-77ho47w4t",
+      "vpnMaxTransactionCount": "200",
+      "vpnMaxMsgSpoolUsage": "1000",
+      "vpnMaxEndpointCount": "50",
+      "vpnMaxEgressFlowCount": "50",
+      "vpnMaxSubscriptionCount": "500",
+      "vpnEnabled": "true",
+      "truststoreUri": "https://www.thawte.com/roots/thawte_Primary_Root_CA.pem",
+      "vpnMaxIngressFlowCount": "50"
+    },
+    "planAttributes": {
+      "vpnEventLargeMsgThreshold": "11",
+      "vpnMaxTransactionCount": "200",
+      "vpnMaxMsgSpoolUsage": "1000",
+      "vpnMaxEndpointCount": "50",
+      "vpnMaxEgressFlowCount": "50",
+      "vpnMaxSubscriptionCount": "500",
+      "vpnMaxIngressFlowCount": "50",
+      "Cost": "Free",
+      "Message Storage Encryption": "Yes",
+      "Configuration Encryption": "Yes",
+      "vpnMaxConnectionCount": "50",
+      "vpnMaxTransactedSessionCount": "50"
+    },
+    "planDisplayAttributes": {
+      "Message Broker Tenancy": "Shared",
+      "High Availability": "Single Node",
+      "Clients": "50",
+      "Queues": "50",
+      "Storage": "1 GB",
+      "Network Usage": "1 GB per month",
+      "Network Speed": "4 Mbps"
+    },
+    "accountingLimits": [
+      {
+        "id": "NetworkUsage",
+        "value": "1000000000",
+        "unit": "bytes",
+        "thresholds": [
+          {
+            "type": "warning",
+            "value": "75"
+          }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "currentTime": 1530733773465
+  }
+}
