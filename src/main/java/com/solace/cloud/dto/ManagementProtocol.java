@@ -8,8 +8,8 @@ public class ManagementProtocol {
     private String name;
     private String username;
     private String password;
-    private List<EndPoint> endPoints = null;
-    private Limits limits;
+    private List<EndPoint_> endPoints = null;
+    private Limits_ limits;
 
     public String getName() {
         return name;
@@ -35,19 +35,19 @@ public class ManagementProtocol {
         this.password = password;
     }
 
-    public List<EndPoint> getEndPoints() {
+    public List<EndPoint_> getEndPoints() {
         return endPoints;
     }
 
-    public void setEndPoints(List<EndPoint> endPoints) {
+    public void setEndPoints(List<EndPoint_> endPoints) {
         this.endPoints = endPoints;
     }
 
-    public Limits getLimits() {
+    public Limits_ getLimits() {
         return limits;
     }
 
-    public void setLimits(Limits limits) {
+    public void setLimits(Limits_ limits) {
         this.limits = limits;
     }
 

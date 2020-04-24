@@ -1,53 +1,44 @@
 {
-	"data": {
-		"type": "service",
-		"serviceId": "77ho47w4t",
-		"name": "Demo Service",
-		"datacenterId": "aws-us-east-1b",
-		"partitionId": "default",
-		"serviceTypeId": "free",
-		"serviceClassId": "free",
-		"adminState": "start",
-		"created": 1530721920996,
-		"creationState": "pending",
-		"msgVpnAttributes": {
-			
-		},
-		"planAttributes": {
-			"vpnEventLargeMsgThreshold": "11",
-			"Cost": "Free",
-			"Message Storage Encryption": "Yes",
-			"Configuration Encryption": "Yes",
-			"vpnMaxConnectionCount": "50",
-			"vpnMaxTransactedSessionCount": "50",
-			"vpnMaxTransactionCount": "200",
-			"vpnMaxMsgSpoolUsage": "1000",
-			"vpnMaxEndpointCount": "50",
-			"vpnMaxEgressFlowCount": "50",
-			"vpnMaxSubscriptionCount": "500",
-			"vpnMaxIngressFlowCount": "50"
-		},
-		"planDisplayAttributes": {
-			"Message Broker Tenancy": "Shared",
-			"High Availability": "Single Node",
-			"Clients": "50",
-			"Queues": "50",
-			"Storage": "1 GB",
-			"Network Usage": "1 GB per month",
-			"Network Speed": "4 Mbps"
-		},
-		"accountingLimits": [
-			{
-				"id": "NetworkUsage",
-				"value": "1000000000",
-				"unit": "bytes",
-				"thresholds": [
-					{
-						"type": "warning",
-						"value": "75"
-					}
-				]
-			}
-		]
-	}
+  "data" : {
+    "type" : "service",
+    "timestamp" : 0,
+    "userId" : "333h1jrp1r",
+    "serviceId" : "9xboqh9ilbh",
+    "name" : "Demo Service",
+    "datacenterId" : "aws-us-east-1b",
+    "attributes" : {
+      "customizedMessagingPorts" : { },
+      "customizedResourceNames" : { }
+    },
+    "serviceTypeId" : "developer",
+    "serviceClassId" : "developer",
+    "adminState" : "start",
+    "created" : 1587685657144,
+    "creationState" : "pending",
+    "msgVpnAttributes" : { },
+    "locked" : false,
+    "messagingStorage" : 10,
+    "serviceStage" : "generalavailability",
+    "servicePackageId" : "DS-V10.3",
+    "serviceClassDisplayedAttributes" : {
+      "High Availability" : "Single Node",
+      "Network Speed" : "8 Mbps",
+      "Storage" : "10 GB",
+      "Message Broker Tenancy" : "Dedicated",
+      "Queues" : "100",
+      "Clients" : "100",
+      "Network Usage" : "2 GB per month"
+    },
+    "accountingLimits" : [ {
+      "id" : "NetworkUsage",
+      "value" : "2000000000",
+      "unit" : "bytes",
+      "thresholds" : [ {
+        "type" : "warning",
+        "value" : "75"
+      } ]
+    } ],
+    "certificateAuthorities" : [ ],
+    "clientProfiles" : [ ]
+  }
 }

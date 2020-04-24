@@ -6,13 +6,14 @@ import java.util.List;
 public class Data {
 
     private String type;
+    private Long timestamp;
+    private String userId;
     private String serviceId;
     private String name;
     private String datacenterId;
-    private String partitionId;
+    private Attributes attributes;
     private String serviceTypeId;
     private String serviceClassId;
-    private String servicePlanId;
     private String adminState;
     private String adminProgress;
     private Long created;
@@ -20,9 +21,15 @@ public class Data {
     private List<MessagingProtocol> messagingProtocols = null;
     private List<ManagementProtocol> managementProtocols = null;
     private MsgVpnAttributes msgVpnAttributes;
-    private PlanAttributes planAttributes;
-    private PlanDisplayAttributes planDisplayAttributes;
+    private Boolean locked;
+    private Long messagingStorage;
+    private String serviceStage;
+    private String servicePackageId;
+    private ServiceClassDisplayedAttributes serviceClassDisplayedAttributes;
     private List<AccountingLimit> accountingLimits = null;
+    private List<String> certificateAuthorities = null;
+    private List<String> clientProfiles = null;
+    private Cluster cluster;
 
     public String getType() {
         return type;
@@ -30,6 +37,22 @@ public class Data {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getServiceId() {
@@ -56,20 +79,12 @@ public class Data {
         this.datacenterId = datacenterId;
     }
 
-    public String getPartitionId() {
-        return partitionId;
+    public Attributes getAttributes() {
+        return attributes;
     }
 
-    public void setPartitionId(String partitionId) {
-        this.partitionId = partitionId;
-    }
-
-    public String getServicePlanId() {
-        return servicePlanId;
-    }
-
-    public void setServicePlanId(String servicePlanId) {
-        this.servicePlanId = servicePlanId;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
     }
 
     public String getServiceTypeId() {
@@ -144,20 +159,44 @@ public class Data {
         this.msgVpnAttributes = msgVpnAttributes;
     }
 
-    public PlanAttributes getPlanAttributes() {
-        return planAttributes;
+    public Boolean getLocked() {
+        return locked;
     }
 
-    public void setPlanAttributes(PlanAttributes planAttributes) {
-        this.planAttributes = planAttributes;
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
-    public PlanDisplayAttributes getPlanDisplayAttributes() {
-        return planDisplayAttributes;
+    public Long getMessagingStorage() {
+        return messagingStorage;
     }
 
-    public void setPlanDisplayAttributes(PlanDisplayAttributes planDisplayAttributes) {
-        this.planDisplayAttributes = planDisplayAttributes;
+    public void setMessagingStorage(Long messagingStorage) {
+        this.messagingStorage = messagingStorage;
+    }
+
+    public String getServiceStage() {
+        return serviceStage;
+    }
+
+    public void setServiceStage(String serviceStage) {
+        this.serviceStage = serviceStage;
+    }
+
+    public String getServicePackageId() {
+        return servicePackageId;
+    }
+
+    public void setServicePackageId(String servicePackageId) {
+        this.servicePackageId = servicePackageId;
+    }
+
+    public ServiceClassDisplayedAttributes getServiceClassDisplayedAttributes() {
+        return serviceClassDisplayedAttributes;
+    }
+
+    public void setServiceClassDisplayedAttributes(ServiceClassDisplayedAttributes serviceClassDisplayedAttributes) {
+        this.serviceClassDisplayedAttributes = serviceClassDisplayedAttributes;
     }
 
     public List<AccountingLimit> getAccountingLimits() {
@@ -166,6 +205,30 @@ public class Data {
 
     public void setAccountingLimits(List<AccountingLimit> accountingLimits) {
         this.accountingLimits = accountingLimits;
+    }
+
+    public List<String> getCertificateAuthorities() {
+        return certificateAuthorities;
+    }
+
+    public void setCertificateAuthorities(List<String> certificateAuthorities) {
+        this.certificateAuthorities = certificateAuthorities;
+    }
+
+    public List<String> getClientProfiles() {
+        return clientProfiles;
+    }
+
+    public void setClientProfiles(List<String> clientProfiles) {
+        this.clientProfiles = clientProfiles;
+    }
+
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
     }
 
 }

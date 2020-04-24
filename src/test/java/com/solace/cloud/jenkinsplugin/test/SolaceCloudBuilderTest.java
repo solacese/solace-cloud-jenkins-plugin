@@ -1,17 +1,22 @@
 package com.solace.cloud.jenkinsplugin.test;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
-import javax.ws.rs.client.SyncInvoker;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.protocol.HTTP;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -19,12 +24,10 @@ import org.jvnet.hudson.test.WithoutJenkins;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.solace.cloud.SolaceCloudBuilder;
 import com.solace.cloud.dto.Data;
 import com.solace.cloud.dto.SolaceCloudRequest;
 import com.solace.cloud.dto.SolaceCloudResponse;
-
-import hudson.model.TaskListener;
+import com.solace.cloud.helpers.InvocationHelper;
 
 public class SolaceCloudBuilderTest {
 
@@ -32,7 +35,10 @@ public class SolaceCloudBuilderTest {
     public JenkinsRule jenkins = new JenkinsRule();
 
     @Rule
-    public WireMockRule wireMockRule = new WireMockRule(); // defaults to port 8080
+    public WireMockRule wireMockRule = new WireMockRule(9090); // defaults to port 8080
+
+    private final String BASE_HOST = "http://localhost:9090";
+    private final String BASE_TARGET_URI = "/api/v0/services";
 
     // Simple Unit test to ensure request JSON is accurate
     @Test
@@ -90,30 +96,71 @@ public class SolaceCloudBuilderTest {
     }
 
     @Test
+    @WithoutJenkins
     public void TestSolaceCloudCreateRequest() throws Exception {
-	SolaceCloudBuilder scb = new SolaceCloudBuilder("fake-api-token", "aws-us-east-1b", "enterprise-giga",
-		"my-test-service");
 
-	TaskListener mockTaskListener = mock(TaskListener.class);
-	when(mockTaskListener.getLogger()).thenReturn(System.out);
-	
-	scb.perform(null, null, null, mockTaskListener);
+	Data responseData = new Data();
+	responseData.setServiceId("123456");
 
-	SyncInvoker mockInvoker = mock(SyncInvoker.class);
+	SolaceCloudResponse response = new SolaceCloudResponse();
+	response.setData(responseData);
 
-	Data fakeResponseBodyData = new Data();
-	fakeResponseBodyData.setServiceId("123456789");
-	fakeResponseBodyData.setAdminProgress("completed");
-	SolaceCloudResponse fakeResponseBody = new SolaceCloudResponse();
-	fakeResponseBody.setData(fakeResponseBodyData);
+	ObjectMapper om = new ObjectMapper();
+	String jsonResponseString = om.writeValueAsString(response);
 
-	//return a successful "create" response
-	Response fakeResponse = Response.status(201).entity(fakeResponseBody).build();
-	when(mockInvoker.post(any())).thenReturn(fakeResponse);
-	
-	//automatically return a 200 with "completed" status so our test doesn't block
-	fakeResponse = Response.status(200).entity(fakeResponseBody).build();
-	when(mockInvoker.get()).thenReturn(fakeResponse);
+	// stub out the Solace Cloud Service
+	wireMockRule.stubFor(post(urlEqualTo("/api/v0/services")).willReturn(
+		aResponse().withStatus(201)
+			   .withHeader(HTTP.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+			   .withBody(jsonResponseString)));
+
+	SolaceCloudRequest request = new SolaceCloudRequest();
+	request.setName("test-service");
+	request.setDatacenterId("aws-ap-northeast-1a");
+	request.setServiceClassId("developer");
+	request.setServiceTypeId("developer");
+
+	InvocationHelper helper = new InvocationHelper();
+	helper.createSolaceCloudService("http://localhost:9090/api/v0/services", "fake-api-token", request);
+
+	// verify the test result
+	verify(postRequestedFor(urlEqualTo("/api/v0/services"))
+							       .withHeader(HTTP.CONTENT_TYPE,
+								       equalTo(MediaType.APPLICATION_JSON))
+							       .withHeader("Authorization", equalTo("fake-api-token")));
+    }
+
+    @Test
+    @WithoutJenkins
+    public void TestSolaceCloudPollRequest() throws Exception {
+
+	Data responseData = new Data();
+	responseData.setAdminProgress("completed");
+
+	SolaceCloudResponse response = new SolaceCloudResponse();
+	response.setData(responseData);
+
+	ObjectMapper om = new ObjectMapper();
+	String jsonResponseString = om.writeValueAsString(response);
+
+	// stub out the Solace Cloud Service
+	wireMockRule.stubFor(
+		get(urlEqualTo("/api/v0/services/123456")).withHeader("Accept", equalTo(MediaType.APPLICATION_JSON))
+							  .willReturn(aResponse().withStatus(200)
+										 .withHeader(HTTP.CONTENT_TYPE,
+											 MediaType.APPLICATION_JSON)
+										 .withBody(jsonResponseString)));
+
+	InvocationHelper helper = new InvocationHelper();
+	SolaceCloudResponse cloudResponse = helper.checkSolaceCloudServiceStartup(
+		"http://localhost:9090/api/v0/services/123456", "fake-api-token");
+
+	// assert that the method returns something
+	assertNotNull(cloudResponse);
+
+	// verify the test result
+	verify(getRequestedFor(urlEqualTo("/api/v0/services/123456")).withHeader("Authorization",
+		equalTo("fake-api-token")));
     }
 
 }

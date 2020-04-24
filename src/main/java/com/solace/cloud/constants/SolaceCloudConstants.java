@@ -56,4 +56,9 @@ public final class SolaceCloudConstants {
 
 	return tempMap;
     }
+
+    public static final String ADMIN_PROGRESS_COMPLETED = "completed";
+    public static final String ADMIN_PROGRESS_FAILED = "failed";
+    public static final String ADMIN_PROGRESS_INITIAL = "initial";
+    public static final String ADMIN_PROGRESS_INPROGRESS = "inProgress";
 }

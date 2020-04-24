@@ -5,6 +5,7 @@ package com.solace.cloud.dto;
 public class MsgVpnAttributes {
 
     private String vpnEventLargeMsgThreshold;
+    private String authenticationClientCertValidateDateEnabled;
     private String vpnMaxConnectionCount;
     private String vpnAdminUsername;
     private String vpnMaxTransactedSessionCount;
@@ -17,8 +18,10 @@ public class MsgVpnAttributes {
     private String vpnMaxEndpointCount;
     private String vpnMaxEgressFlowCount;
     private String vpnMaxSubscriptionCount;
+    private String authenticationClientCertEnabled;
     private String vpnEnabled;
     private String truststoreUri;
+    private String authenticationBasicEnabled;
     private String vpnMaxIngressFlowCount;
 
     public String getVpnEventLargeMsgThreshold() {
@@ -27,6 +30,14 @@ public class MsgVpnAttributes {
 
     public void setVpnEventLargeMsgThreshold(String vpnEventLargeMsgThreshold) {
         this.vpnEventLargeMsgThreshold = vpnEventLargeMsgThreshold;
+    }
+
+    public String getAuthenticationClientCertValidateDateEnabled() {
+        return authenticationClientCertValidateDateEnabled;
+    }
+
+    public void setAuthenticationClientCertValidateDateEnabled(String authenticationClientCertValidateDateEnabled) {
+        this.authenticationClientCertValidateDateEnabled = authenticationClientCertValidateDateEnabled;
     }
 
     public String getVpnMaxConnectionCount() {
@@ -125,6 +136,14 @@ public class MsgVpnAttributes {
         this.vpnMaxSubscriptionCount = vpnMaxSubscriptionCount;
     }
 
+    public String getAuthenticationClientCertEnabled() {
+        return authenticationClientCertEnabled;
+    }
+
+    public void setAuthenticationClientCertEnabled(String authenticationClientCertEnabled) {
+        this.authenticationClientCertEnabled = authenticationClientCertEnabled;
+    }
+
     public String getVpnEnabled() {
         return vpnEnabled;
     }
@@ -139,6 +158,14 @@ public class MsgVpnAttributes {
 
     public void setTruststoreUri(String truststoreUri) {
         this.truststoreUri = truststoreUri;
+    }
+
+    public String getAuthenticationBasicEnabled() {
+        return authenticationBasicEnabled;
+    }
+
+    public void setAuthenticationBasicEnabled(String authenticationBasicEnabled) {
+        this.authenticationBasicEnabled = authenticationBasicEnabled;
     }
 
     public String getVpnMaxIngressFlowCount() {
