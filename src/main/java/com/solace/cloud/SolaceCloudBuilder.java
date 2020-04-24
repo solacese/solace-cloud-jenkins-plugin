@@ -10,7 +10,6 @@ import org.kohsuke.stapler.QueryParameter;
 
 import com.solace.cloud.constants.SolaceCloudConstants;
 import com.solace.cloud.dto.SolaceCloudRequest;
-import com.solace.cloud.dto.SolaceCloudResponse;
 import com.solace.cloud.helpers.InvocationHelper;
 
 import hudson.AbortException;
@@ -29,7 +28,6 @@ import jenkins.tasks.SimpleBuildStep;
 public class SolaceCloudBuilder extends Builder implements SimpleBuildStep {
 
     private String SOLACE_CLOUD_HOST = "https://api.solace.cloud";
-    private final String SOLACE_CLOUD_BASE_URI = "/api/v0/services";
     private final Long SOLACE_CLOUD_POLL_MS = 5000L;
 
     private String apiToken;
@@ -51,30 +49,25 @@ public class SolaceCloudBuilder extends Builder implements SimpleBuildStep {
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener)
 	    throws InterruptedException, IOException {
 
-	InvocationHelper cloudHelper = new InvocationHelper();
+	InvocationHelper cloudHelper = new InvocationHelper(SOLACE_CLOUD_HOST, apiToken);
 
 	listener.getLogger().println("Calling Solace Cloud to create the service...");
 
 	// make the actual Solace Cloud call to create a service
-	String uri = SOLACE_CLOUD_HOST + SOLACE_CLOUD_BASE_URI;
-	String serviceId = cloudHelper.createSolaceCloudService(uri, apiToken, solaceCloudRequest);
+	String serviceId = cloudHelper.createSolaceCloudService(solaceCloudRequest);
 
-	listener.getLogger().printf("Success! ServiceId is %s", serviceId);
+	listener.getLogger().printf("Success! ServiceId is %s\n", serviceId);
 
 	// temp variables to poll the service for create-completion
 	Boolean done = false;
 	String serviceStatus;
-	SolaceCloudResponse solaceCloudPollResponse;
 
-	listener.getLogger().println("Checking to see if service is fully up...");
-
-	uri = SOLACE_CLOUD_HOST + SOLACE_CLOUD_BASE_URI + "/" + serviceId;
+	listener.getLogger().print("Checking to see if service is fully up...\r");
 
 	while (!done) {
-	    solaceCloudPollResponse = cloudHelper.checkSolaceCloudServiceStartup(uri, apiToken);
-	    serviceStatus = solaceCloudPollResponse.getData().getAdminProgress();
+	    serviceStatus = cloudHelper.checkSolaceCloudServiceStartup(serviceId);
 
-	    switch (serviceStatus.toLowerCase()) {
+	    switch (serviceStatus) {
 	    case SolaceCloudConstants.ADMIN_PROGRESS_COMPLETED:
 		done = true;
 		break;
@@ -83,7 +76,7 @@ public class SolaceCloudBuilder extends Builder implements SimpleBuildStep {
 		throw new AbortException("Service startup failed! ServiceId:" + serviceId);
 
 	    default:
-		listener.getLogger().println("Not up yet. Waiting to retry....");
+		listener.getLogger().println("Not up yet. Waiting to retry...");
 
 		// block this thread and wait to check Solace Cloud again at some point
 		Thread.sleep(SOLACE_CLOUD_POLL_MS);

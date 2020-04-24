@@ -1,96 +1,84 @@
 package com.solace.cloud.helpers;
 
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.ResponseProcessingException;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 import com.solace.cloud.dto.SolaceCloudRequest;
 import com.solace.cloud.dto.SolaceCloudResponse;
 
 import hudson.AbortException;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class InvocationHelper {
 
-    private Client client;
+    // holder for the response from Solace Cloud.
+    private SolaceCloudResponse cloudResponse = null;
+    private SolaceCloudService service = null;
 
-    public InvocationHelper(String baseURI) {
-	client = ClientBuilder.newClient();
+    private String apiToken = null;
+
+    public InvocationHelper(String baseUrl, String apiToken) {
+
+	this.apiToken = apiToken;
+
+	Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+						  .addConverterFactory(JacksonConverterFactory.create())
+						  .build();
+
+	service = retrofit.create(SolaceCloudService.class);
     }
 
-    public String createSolaceCloudService(String uri, String apiToken, SolaceCloudRequest createServiceRequest)
-	    throws AbortException {
+    // creates a solace cloud service
+    public String createSolaceCloudService(SolaceCloudRequest createServiceRequest) throws AbortException {
 
 	try {
-	    Response cloudResponse = client.target(uri)
-					   .request(MediaType.APPLICATION_JSON)
-					   .header(HttpHeaders.AUTHORIZATION, apiToken)
-					   .post(Entity.entity(createServiceRequest, MediaType.APPLICATION_JSON));
 
-	    // Check if the http status code is 201 ("Created") otherwise we have an error
-	    if (cloudResponse.getStatus() != 201) {
-		throw new AbortException(String.format(
-			"Unexpected HTTP status code of %s with message '%s'. The expected HTTP status code is 201.",
-			cloudResponse.getStatus(), cloudResponse.getStatusInfo()));
-	    }
+	    // POST our request & retrieve only the service Id
 
-	    // we only really need the serviceId
-	    String serviceId = cloudResponse.readEntity(SolaceCloudResponse.class).getData().getServiceId();
-
-	    if (serviceId.equals(null) || serviceId.equals(""))
-		throw new AbortException("Solace Cloud did not return a valid serviceId!");
+	    String serviceId = service.createService(apiToken, createServiceRequest)
+				      .execute()
+				      .body()
+				      .getData()
+				      .getServiceId();
 
 	    return serviceId;
-	} catch (ResponseProcessingException ex) {
-	    throw new AbortException(
-		    "Could't process the Service Create response from the Solace Cloud API - " + ex.getMessage());
-	} catch (ProcessingException ex) {
-	    throw new AbortException(
-		    "General processing problem trying to call the Solace Cloud API to create a service - "
-			    + ex.toString());
-	} catch (IllegalArgumentException ex) {
-	    throw new AbortException("Malformed Solace Cloud URI provided when creating the service- " + uri);
-	} catch (NullPointerException ex) {
-	    throw new AbortException("The Solace Cloud URI cannot be 'null'");
-	} finally {
-	    
+	} catch (IOException ex) {
+	    AbortException abort = new AbortException("The Solace Cloud API didn't return a ServiceId!");
+	    abort.addSuppressed(ex);
+	    throw abort;
 	}
     }
 
-    public SolaceCloudResponse checkSolaceCloudServiceStartup(String uri, String apiToken) throws AbortException {
+    // Retrieves the status of the service identified by "serviceId"
+    // Also makes the general response JSON available for use
+    public String checkSolaceCloudServiceStartup(String serviceId) throws AbortException {
 
 	try {
-	    Response cloudResponse = client.target(uri)
-					   .request(MediaType.APPLICATION_JSON)
-					   .header(HttpHeaders.AUTHORIZATION, apiToken)
-					   .get();
+	    SolaceCloudResponse response = service.getServiceInfo(apiToken, serviceId).execute().body();
 
-	    // Check if the http status code is 200 ("OK") otherwise we have an error
-	    if (cloudResponse.getStatus() != 200) {
-		throw new AbortException(String.format(
-			"Unexpected HTTP status code of %s with message '%s'. The expected HTTP status code is 200.",
-			cloudResponse.getStatus(), cloudResponse.getStatusInfo()));
+	    setSolaceCloudResponse(response);
+
+	    String serviceAdminProgress = response.getData().getAdminProgress();
+
+	    //if we hit the service too early during startup, the adminProgress is null, guard against a failure if that happens
+	    if (serviceAdminProgress != null) {
+		return serviceAdminProgress.toLowerCase();
+	    } else {
+		return "inprogress";
 	    }
-
-	    return cloudResponse.readEntity(SolaceCloudResponse.class);
-
-	} catch (ResponseProcessingException ex) {
-	    throw new AbortException(
-		    "Could't process the Service Status response from the Solace Cloud API - " + ex.toString());
-	} catch (ProcessingException ex) {
-	    throw new AbortException(
-		    "General processing problem trying to call the Solace Cloud API to poll the service - "
-			    + ex.toString());
-	} catch (IllegalArgumentException ex) {
-	    throw new AbortException("Malformed Solace Cloud URI provided when polling the service- " + uri);
-	} catch (NullPointerException ex) {
-	    throw new AbortException("The Solace Cloud URI cannot be 'null'");
-	} finally {
-	    client.close();
+	    
+	} catch (IOException ex) {
+	    AbortException abort = new AbortException("Error polling serviceId:" + serviceId);
+	    abort.addSuppressed(ex);
+	    throw abort;
 	}
+    }
+
+    private void setSolaceCloudResponse(SolaceCloudResponse cloudResponse) {
+	this.cloudResponse = cloudResponse;
+    }
+
+    private SolaceCloudResponse getSolaceCloudResponse() {
+	return cloudResponse;
     }
 }

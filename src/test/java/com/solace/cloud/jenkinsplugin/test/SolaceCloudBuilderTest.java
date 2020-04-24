@@ -8,12 +8,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-
-import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.protocol.HTTP;
@@ -36,9 +35,6 @@ public class SolaceCloudBuilderTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(9090); // defaults to port 8080
-
-    private final String BASE_HOST = "http://localhost:9090";
-    private final String BASE_TARGET_URI = "/api/v0/services";
 
     // Simple Unit test to ensure request JSON is accurate
     @Test
@@ -109,10 +105,10 @@ public class SolaceCloudBuilderTest {
 	String jsonResponseString = om.writeValueAsString(response);
 
 	// stub out the Solace Cloud Service
-	wireMockRule.stubFor(post(urlEqualTo("/api/v0/services")).willReturn(
-		aResponse().withStatus(201)
-			   .withHeader(HTTP.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-			   .withBody(jsonResponseString)));
+	wireMockRule.stubFor(post(urlEqualTo("/api/v0/services")).willReturn(aResponse().withStatus(201)
+											.withHeader(HTTP.CONTENT_TYPE,
+												"application/json")
+											.withBody(jsonResponseString)));
 
 	SolaceCloudRequest request = new SolaceCloudRequest();
 	request.setName("test-service");
@@ -120,14 +116,16 @@ public class SolaceCloudBuilderTest {
 	request.setServiceClassId("developer");
 	request.setServiceTypeId("developer");
 
-	InvocationHelper helper = new InvocationHelper();
-	helper.createSolaceCloudService("http://localhost:9090/api/v0/services", "fake-api-token", request);
+	InvocationHelper helper = new InvocationHelper("http://localhost:9090", "fake-api-token");
+	String serviceId = helper.createSolaceCloudService(request);
 
 	// verify the test result
 	verify(postRequestedFor(urlEqualTo("/api/v0/services"))
 							       .withHeader(HTTP.CONTENT_TYPE,
-								       equalTo(MediaType.APPLICATION_JSON))
+								       equalTo("application/json"))
 							       .withHeader("Authorization", equalTo("fake-api-token")));
+
+	assertEquals("123456", serviceId);
     }
 
     @Test
@@ -144,23 +142,20 @@ public class SolaceCloudBuilderTest {
 	String jsonResponseString = om.writeValueAsString(response);
 
 	// stub out the Solace Cloud Service
-	wireMockRule.stubFor(
-		get(urlEqualTo("/api/v0/services/123456")).withHeader("Accept", equalTo(MediaType.APPLICATION_JSON))
-							  .willReturn(aResponse().withStatus(200)
-										 .withHeader(HTTP.CONTENT_TYPE,
-											 MediaType.APPLICATION_JSON)
-										 .withBody(jsonResponseString)));
+	wireMockRule.stubFor(get(urlEqualTo("/api/v0/services/123456")).willReturn(
+		aResponse().withStatus(200)
+			   .withHeader(HTTP.CONTENT_TYPE, "application/json")
+			   .withBody(jsonResponseString)));
 
-	InvocationHelper helper = new InvocationHelper();
-	SolaceCloudResponse cloudResponse = helper.checkSolaceCloudServiceStartup(
-		"http://localhost:9090/api/v0/services/123456", "fake-api-token");
+	InvocationHelper helper = new InvocationHelper("http://localhost:9090", "fake-api-token");
+	String serviceStatus = helper.checkSolaceCloudServiceStartup("123456");
 
-	// assert that the method returns something
-	assertNotNull(cloudResponse);
-
-	// verify the test result
+	// verify the web call
 	verify(getRequestedFor(urlEqualTo("/api/v0/services/123456")).withHeader("Authorization",
 		equalTo("fake-api-token")));
+
+	// assert that the method returned the status we wanted
+	assertEquals("completed", serviceStatus);
     }
 
 }
