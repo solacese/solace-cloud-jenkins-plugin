@@ -62,7 +62,7 @@ public class SolaceCloudBuilder extends Builder implements SimpleBuildStep {
 	Boolean done = false;
 	String serviceStatus;
 
-	listener.getLogger().print("Checking to see if service is fully up...\r");
+	listener.getLogger().println("Checking to see if service is fully up...\n");
 
 	while (!done) {
 	    serviceStatus = cloudHelper.checkSolaceCloudServiceStartup(serviceId);
@@ -76,7 +76,7 @@ public class SolaceCloudBuilder extends Builder implements SimpleBuildStep {
 		throw new AbortException("Service startup failed! ServiceId:" + serviceId);
 
 	    default:
-		listener.getLogger().println("Not up yet. Waiting to retry...");
+		listener.getLogger().print("Not up yet. Waiting to retry...\r");
 
 		// block this thread and wait to check Solace Cloud again at some point
 		Thread.sleep(SOLACE_CLOUD_POLL_MS);
